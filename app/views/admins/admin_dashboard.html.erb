@@ -1,0 +1,34 @@
+<!-- app/views/admins/admin_dashboard.html.erb -->
+
+<%# This is the admin dashboard view %>
+
+<!-- app/views/admins/admin_dashboard.html.erb -->
+
+<h1>Admin Dashboard</h1>
+
+<%= link_to 'Create New Cafe', new_cafe_admins_path, class: 'button' %>
+
+<h2>List of Cafes</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Pin Code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cafes.each do |cafe| %>
+      <tr>
+        <td><%= cafe.name %></td>
+        <td><%= cafe.address %></td>
+        <td><%= cafe.phone %></td>
+        <td><%= cafe.email %></td>
+        <td><%= cafe.pin_code %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

@@ -1,0 +1,27 @@
+<!-- 
+<script>
+  $(document).ready(function() {
+
+    data = []
+    $('#btnSubmit').click(function() {
+      $('#shop_products_list .row-select input:checked').each(function() {
+        var menu_name = $(this).closest('tr').find('.get_menu_name').html();
+        var menu_price = $(this).closest('tr').find('.get_menu_price').html();
+        var quantity_val = $(this).closest('tr').find('.quantity_id').val();
+        var cafe_id = $(this).closest('tr').find('#cafe_id').val();
+        
+        data.push({'menu_name': menu_name,'menu_price': menu_price,'quantity': quantity_val,'cafe_id': cafe_id})
+      });
+      
+      $.ajax({
+        type: "POST",
+        url: "/orders",
+        data: {order_params: data},
+        dataType: "script",
+        encode: true,
+      }).done(function (data) {
+        dataType : "json"
+      });
+    });
+  });
+</script> -->

@@ -1,0 +1,19 @@
+<%= form_with model: @menu do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :price %><br>
+    <%= form.text_field :price %><br>
+    <%= form.hidden_field :cafe_id, value: current_user.cafe.id %><br>
+  </div>
+
+  <div> </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+  
+<% end %>

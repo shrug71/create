@@ -1,0 +1,10 @@
+<%= form_with model: @order_menu, url: order_menus_path do |f| %>
+  <!-- Other form fields -->
+  <%= f.fields_for :order_menu do |order_menu_fields| %>
+    <%= order_menu_fields.hidden_field :menu_id, value: @menu.id %>
+    <%= order_menu_fields.hidden_field :order_id, value: @order.id %>
+    <%= order_menu_fields.number_field :quantity, class: 'form-control qty', value: 0 %>
+  <% end %>
+
+  <%= f.submit "Place Order", class: 'btn btn-primary', remote: true %>
+<% end %>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .container mt-4 {
+      margin-top: 1.5rem;
+    }
+
+    .table th, .table td {
+      vertical-align: middle;
+    }
+
+    .action-buttons a {
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <%= link_to 'Back', root_path %>
+
+  <% if current_user.role == "customer" %>
+    <!-- Customer View -->
+    <div class="container mt-4">
+      <div>
+        <h1>Your Order</h1>
+        <p>Check out the details of your orders below.</p>
+      </div>
+
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>User Name</th>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @orders.each do |order| %>
+            <tr>
+              <td><%= order.user.f_name %></td>  
+              <td><%= order.id %></td>
+              <td><%= order.status %></td>
+              <td class="action-buttons">
+                <%= link_to "Show", order_path(order.id), class: "btn btn-primary btn-sm" %>
+                <%= link_to "Cancel Order", cancel_order_path(order.id), method: :put, class: "btn btn-danger btn-sm" %>
+                <%= link_to "Confirm Order", confirm_order_path(order.id), method: :put, class: "btn btn-success btn-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% elsif current_user.role == "cafeowner" %>
+    <!-- Cafe Owner View -->
+    <div class="container mt-4">
+      <div>
+        <h1>All Orders</h1>
+      </div>
+
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th>User Name</th>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @orders.each do |order| %>
+            <tr>
+              <td><%= order.user.f_name %></td>  
+              <td><%= order.id %></td>
+              <td><%= order.status %></td>
+              <td class="action-buttons">
+                <%= link_to "Show", order_path(order.id), class: "btn btn-primary btn-sm" %>
+                <%= button_to "Accept", accept_order_path(order.id), method: :put, class: "btn btn-success btn-sm" %>
+                <%= button_to "Reject", reject_order_path(order.id), method: :put, class: "btn btn-danger btn-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

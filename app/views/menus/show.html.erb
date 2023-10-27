@@ -1,0 +1,12 @@
+<% if @menu && @cafe %>
+  <h2>Menus for <%= @cafe.name %></h2>
+  <ul class="menu-list">
+    <li><%= @menu.name %> - <%= @menu.price %></li>
+  </ul>
+  
+  <%= link_to "Back", cafes_path, class: "btn btn-secondary" %>
+<% else %>
+  <p>No menu found or associated cafe not found.</p>
+<% end %>
+
+                   <%= link_to "Destroy", menu_path(@menu.id), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: 'Are you sure?' } %>

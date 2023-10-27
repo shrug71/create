@@ -1,0 +1,27 @@
+<h1>Cafe Menus</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cafe</th>
+      <th>Menu</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cafe_menus.each do |cafe_menu| %>
+      <tr>
+        <td><%= cafe_menu.cafe.name %></td>
+        <td><%= cafe_menu.menu.name %></td>
+        <td><%= link_to 'Show', cafe_menu %></td>
+        <td><%= link_to 'Edit', edit_cafe_menu_path(cafe_menu) %></td>
+        <td><%= link_to 'Destroy', cafe_menu, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cafe Menu', new_cafe_menu_path %>

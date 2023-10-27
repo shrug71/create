@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Foodies</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Add your custom styles here -->
+    <style>
+        body {
+    background-image: url('https://c0.wallpaperflare.com/preview/5/307/817/pizza-courier-online-cheese.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+/
+        }
+        .container {
+            margin-top: 50px; /* Adjust top margin */
+        }
+        .jumbotron {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            margin-top: 134px;
+        }
+        .jumbotron h1, .jumbotron p {
+            color: #fff; /* Set text color to white */
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .btn-container a {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add Bootstrap Navbar -->
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Welcome Foodies</h1>
+            <p class="lead">Discover our delicious menu and place your order online.</p>
+
+            <!-- Buttons for different user roles -->
+            <div class="btn-container">
+                <% if current_user.role_id == 1 %>
+                    <a href="<%= cafes_path %>" class="btn btn-primary btn-lg">Cafes</a>
+                    <%= link_to 'New Cafe', new_cafe_path, class: "btn btn-success btn-lg" %>
+                <% elsif current_user.role == "cafeowner" %>
+                    <!--<a href="<%= menus_path %>" class="btn btn-primary btn-lg">Menu</a>-->
+                    <a href="<%= orders_path %>" class="btn btn-primary btn-lg">Order</a>
+                    <a href="<%= cafes_path %>" class="btn btn-primary btn-lg">Cafe</a>
+                <% elsif current_user.role == "customer" %>
+                    <a href="<%= cafes_path %>" class="btn btn-primary btn-lg">Cafes</a>
+                    <a href="<%= orders_path %>" class="btn btn-primary btn-lg">Order</a>
+                     
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery (required for Bootstrap components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

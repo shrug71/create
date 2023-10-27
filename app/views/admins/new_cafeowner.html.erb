@@ -1,0 +1,29 @@
+<!-- app/views/admins/new_cafeowner.html.erb -->
+
+<%# This is the registration form for a new cafe owner %>
+
+<h1>Create a New Cafe Owner</h1>
+
+<%= form_for @cafe_owner, url: admin_create_cafeowner_path do |f| %>
+  <div class="form-group">
+    <%= f.label :username %>
+    <%= f.text_field :username, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.email_field :email, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password %>
+    <%= f.password_field :password, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation, class: 'form-control' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Create Cafe Owner', class: 'btn btn-primary' %>

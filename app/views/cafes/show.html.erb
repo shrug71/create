@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <title>Cafe Details</title>
+  <style>
+    /* Add your custom styles here */
+    body {
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .jumbotron {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .menu-list {
+      list-style: none;
+      padding: 0;
+    }
+    .menu-list li {
+      margin-bottom: 10px;
+      color: #007BFF;
+    }
+    .table th, .table td {
+      vertical-align: middle;
+    }
+    .table th {
+      text-align: center;
+    }
+    .btn-place-order {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .btn-place-order:hover {
+      background-color: #218838;
+    }
+    .form-control.qty {
+      width: 60px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h2 class="display-4">Cafe Details</h2>
+      <p><strong>Name:</strong> <%= @cafe.name %></p>
+      <p><strong>City:</strong> <%= @cafe.city %></p>
+      <p><strong>Address:</strong> <%= @cafe.address %></p>
+      <p><strong>Pin Code:</strong> <%= @cafe.pin_code %></p>
+      <p><strong>Phone:</strong> <%= @cafe.phone %></p>
+    </div>
+    <%= link_to "Back", cafes_path %>
+
+    <% if current_user.role == "customer" %>
+      <h2>Order Form</h2>
+      <div class="table-responsive">
+        <table class="table table-hover" id="cafe-products-list">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Select</th>
+              <th>Quantity</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= form_with model: @order, url: order_menus_path, method: :post do |f| %>
+              <% @menus.each do |menu| %>
+                <tr class="row-select cart">
+                  <td class="get-menu-name">
+                    <%= menu.name %>
+                  </td>
+                  <td class="get-menu-price price">
+                    <%= menu.price %>
+                  </td>
+                  <td>
+                    <%= f.check_box "menus_attributes[][menu_selected]", { class: 'menu-checkbox' }, 'true', 'false' %>
+                    <%= f.hidden_field "menus_attributes[][menu_id]", value: menu.id %>
+                  </td> 
+                  <td>
+                    <%= f.number_field "menus_attributes[][quantity]", class: 'form-control qty', value: 0 %>
+                  </td>
+                  <td>
+                    <span class="subtotal">0</span>
+                    <%= f.hidden_field "menus_attributes[][subtotal]", class: 'subTotalInput' %>
+                  </td>
+                  <td class="get-cafe-id">
+                    <%= hidden_field_tag 'cafe_id', @cafe.id  %>
+                  </td>
+                </tr>
+              <% end %>
+              <tr>
+                <td colspan="4"><strong>Total</strong></td>
+                <td>
+                  <span id="total">0</span>
+                  <%= f.hidden_field :total, value: 0, id: 'hiddenTotal'%>
+                </td>
+              </tr>
+              <%= f.submit "Submit Order" %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+      $("input.menu-checkbox").change(function() {
+        var ischecked = $(this).is(':checked');
+        if (ischecked) {
+          $('.qty').change(function() {
+            updateQuantity(this);
+          });
+
+          function updateQuantity(qtyInput) {
+            var cartRow = $(qtyInput).closest('tr');
+            var price = parseFloat($('.price', cartRow).text());
+            var quantity = $('.qty', cartRow).val();
+            var subtotal = $('.subtotal', cartRow);
+            var linePrice = price * quantity;
+            $(subtotal).text(linePrice.toFixed(2));
+            $(".subTotalInput", cartRow).val(linePrice.toFixed(2));
+            total_calculate(); // Call the total_calculate function
+          }
+
+          function total_calculate() {
+            var total = 0;
+            // Loop through subtotal
+            $(".cart .subtotal").each(function() {
+              // Check if not empty
+              var value = $(this).text() != "" ? parseFloat($(this).text()) : 0;
+              total += value; // Add that value
+            });
+            // Assign to total span
+            $("span#total").text(total.toFixed(2));
+            $("#hiddenTotal").val(total.toFixed(2));
+          }
+          total_calculate(); // Initial calculation
+        } else {
+          alert("Please select an item before placing your order.");
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+ <%= link_to 'Back', root_path, class: "btn btn-primary" %>
+<div class="container mt-4">
+  <h1 class="text-primary">User Name: <%= @user_name %></h1>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Menu Name</th>
+          <th>Menu Price</th>
+          <th>Menu Quantity</th>
+          <th>Sub Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% total_amount = 0 %>
+        <% @order_menus.each do |order_menu| %>
+          <tr>
+            <td><%= order_menu.menu.name %></td>  
+            <td>$<%= order_menu.menu.price %></td> 
+            <td><%= order_menu.quantity %></td>
+            <td><%= order_menu.subtotal || 0 %></td>
+          </tr>
+          <% total_amount += (order_menu.subtotal || 0) %>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3" class="text-right">Total:</th>
+          <td class="text-success">$<%= @order_menus.first&.total %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="button-container mt-3">
+    <% if current_user == "cafeowner" %>
+    <%= button_to "Accept", accept_order_path(@order), method: :put, class: "btn btn-success mr-2" %>
+    <%= button_to "Reject", reject_order_path(@order), method: :put, class: "btn btn-danger mr-2" %>
+    <%= link_to 'Back', root_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+<style type="text/css">
+  .container {
+    padding: 20px;
+  }
+
+  .table {
+    width: 100%;
+  }
+
+  .button-container {
+    text-align: right;
+  }
+</style>

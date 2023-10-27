@@ -1,0 +1,12 @@
+<p>
+  <strong>Cafe:</strong>
+  <%= @cafe_menu.cafe.name %>
+</p>
+
+<p>
+  <strong>Menu:</strong>
+  <%= @cafe_menu.menu.name %>
+</p>
+
+<%= link_to 'Edit', edit_cafe_menu_path(@cafe_menu) %> |
+<%= link_to 'Back', cafe_menus_path %>

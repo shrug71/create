@@ -1,0 +1,18 @@
+<%#= form_with(model: order, local: true) do |form| %>
+  <!--<div class="form-group">-->
+    <%#= form.label :status %>
+    <%#= form.text_field :status, class: "form-control" %>
+  <!--</div>-->
+  <%#= form.submit "Save", class: "btn btn-primary" %>
+<%# end %>
+<%= form_with model: @order do |form| %>
+  <div>
+    <%= form.label :status %><br>
+    <%= form.text_field :status %>
+    
+  </div>
+  <div>
+    <%= form.submit %>
+  </div>
+  
+<% end %>

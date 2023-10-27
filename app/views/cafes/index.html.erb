@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Ordering App - Cafe List</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .jumbotron {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .jumbotron h1 {
+      font-size: 2.5rem;
+    }
+
+    .table-responsive {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .table {
+      background-color: #ffffff;
+    }
+
+    .table th,
+    .table td {
+      border-top: none;
+    }
+
+    .table th {
+      background-color: #f8f9fa;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    .table .action-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .action-buttons a {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <% if current_user.role == "customer" %>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- Add navigation links or buttons here -->
+      </nav>
+
+      <div class="jumbotron">
+        <!-- Jumbotron content here -->
+        <h1>Discover Cafes</h1>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Cafe Name</th>
+              <th>Cafe Address</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @cafes.each do |cafe| %>
+              <tr>
+                <td><%= cafe.name %></td>
+                <td><%= cafe.address %></td>
+                <td class="action-buttons">
+                  <% if current_user.role_id != 1 %>
+                    <%= link_to "Menu", cafe_path(cafe), class: "btn btn-primary btn-sm" %>
+                  <% end %>
+
+                  <% if current_user.role_id == 1 && current_user.role_id == 2 %>
+                    <%= button_to "Destroy", cafe_path(cafe.id), method: :delete, class: "btn btn-danger btn-sm" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+         <%= link_to 'Back', cafes_path %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <% if current_user.role == "cafeowner" %>
+      <div class="container">
+        <div class="jumbotron">
+          <h1>Welcome to your cafe</h1>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Cafe Name</th>
+                <th>Cafe Address</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><%= current_user.cafe&.name %></td>
+                <td><%= current_user.cafe&.address %></td>
+                <td class="action-buttons">
+                  <% if current_user.role_id != 1 %>
+                    <%= link_to "View Cafe", cafe_path(current_user.cafe), class: "btn btn-primary btn-sm" %>
+                    <%= link_to "View Menu", menus_path(cafe_id: current_user.cafe), class: "btn btn-primary btn-sm" %>
+                  <%= link_to "Edit Cafe", edit_cafe_path(current_user.cafe.id), class: "btn btn-secondary btn-sm" %>
+
+
+                    <%= link_to 'Create Menu', new_menu_path, class: "btn btn-success" %>
+                </td>
+                    
+
+                  <% end %>
+
+                  <% if current_user.role_id == 1 || current_user.role_id == 2 %>
+                    <%= button_to "Destroy", cafe_path(cafe), method: :delete, class: "btn btn-danger btn-sm" %>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <%= link_to "Back", root_path %>
+    <% end %>
+
+    <% if current_user.role == "admin" %>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- Add navigation links or buttons here -->
+      </nav>
+
+      <div class="jumbotron">
+        <!-- Jumbotron content here -->
+        <h1>Discover Cafes</h1>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Cafe Name</th>
+              <th>Cafe Address</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @cafes.each do |cafe| %>
+              <tr>
+                <td><%= cafe.name %></td>
+                <td><%= cafe.address %></td>
+                <td class="action-buttons">
+                  <% if current_user.role_id == 1 %>
+                    <%= button_to "Destroy", cafe_path(cafe.id), method: :delete, class: "btn btn-danger btn-sm" %>
+                  <% end %>
+                </td>
+                </td>
+              </tr>
+            <% end %>
+              <%= link_to "Back", root_path %>
+                </td>
+                </td>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  </div>
+
+</body>
+
+</html>
+
